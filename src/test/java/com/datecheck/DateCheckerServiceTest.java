@@ -25,6 +25,7 @@ public class DateCheckerServiceTest {
 	private static final LocalDateTime WITHIN_WORKING_HOURS_WEDNESDAY = CURRENT_DATE_TIME.with(TemporalAdjusters.nextOrSame(DayOfWeek.WEDNESDAY)).withHour(12).withMinute(30);
 	private static final LocalDateTime NINE_AM_EXACTLY_WITHIN_WORKING_HOURS_WEDNESDAY = CURRENT_DATE_TIME.with(TemporalAdjusters.nextOrSame(DayOfWeek.WEDNESDAY)).withHour(9).withMinute(0).withSecond(0).withNano(0);
 	private static final LocalDateTime AFTER_WORKING_HOURS_WEDNESDAY = CURRENT_DATE_TIME.with(TemporalAdjusters.nextOrSame(DayOfWeek.WEDNESDAY)).withHour(18).withMinute(1);
+	private static final LocalDateTime SIX_PM_EXACTLY_WITHIN_WORKING_HOURS_WEDNESDAY = CURRENT_DATE_TIME.with(TemporalAdjusters.nextOrSame(DayOfWeek.WEDNESDAY)).withHour(18).withMinute(0).withSecond(0).withNano(0);;
 
 
 	private DateCheckerService dateCheckerService;
@@ -72,6 +73,11 @@ public class DateCheckerServiceTest {
 	@Test
 	public void givenCheckerService_whenCallBackIsNineAmExactlyWithinWorkingHoursOnWednesday_thenTheDateIsValid() {
 		assertTrue(dateCheckerService.isCallBackDateValid(NINE_AM_EXACTLY_WITHIN_WORKING_HOURS_WEDNESDAY, CURRENT_DATE_TIME));
+	}
+	
+	@Test
+	public void givenCheckerService_whenCallBackIsEightPmExactlyWithinWorkingHoursOnWednesday_thenCurrentDateIsValid() {
+		assertTrue(dateCheckerService.isCallBackDateValid(SIX_PM_EXACTLY_WITHIN_WORKING_HOURS_WEDNESDAY, CURRENT_DATE_TIME));
 	}
 	
 	@Test

@@ -31,33 +31,29 @@ public class DateCheckerService implements DateChecker {
 
 	}
 
-	public boolean isCallBackDateValid(LocalDateTime callbackDateandTime,  LocalDateTime currentDateTime) {
+	public boolean isCallBackDateValid(LocalDateTime callbackDateandTime, LocalDateTime currentDateTime) {
 
 		LocalDateTime MaxDaysinFuture = currentDateTime.plusDays(MAXDAYSINFUTURE);
 		LocalDateTime EarliestCallBackTime = currentDateTime.plusHours(MAXHOURSAFTERNOW);
-
+		boolean isDateTimeValid;
 		// assumption that 6 working days in future counts day 1 as tomorrow
 		// so any date over 7 days can be discarded as every week will have a non
 		// working Sunday
 		if (callbackDateandTime.isAfter(MaxDaysinFuture)) {
 			System.out.println("Date is over 6 business days in the future");
-			return false;
+			isDateTimeValid = false;
 		}
-
 		// check less than 2 hours
-		if (callbackDateandTime.isBefore(EarliestCallBackTime)) {
-			System.out.println("The booking is too close to now");
-			return false;
+		else if (callbackDateandTime.isBefore(EarliestCallBackTime)) {
+			isDateTimeValid = false;
 		}
-
-		if (isTimeValid(callbackDateandTime)) {
-			System.out.println("invalid time");
-			return true;
+		else if (isTimeValid(callbackDateandTime)) {
+			isDateTimeValid = true;
 		} else {
 			// out of hours
-			return false;
+			isDateTimeValid = false;
 		}
-
+		return isDateTimeValid;
 	}
 
 	private boolean isTimeValid(LocalDateTime callbackDateandTime) {
@@ -81,7 +77,6 @@ public class DateCheckerService implements DateChecker {
 		boolean isInWorkingHours = false;
 		// need to check if exact match is allowed ?
 		if (callbackTime.equals(allowedHours.getOpeningTime()) || callbackTime.equals(allowedHours.getClosingTime())) {
-			System.out.println("it's the same ");
 			isInWorkingHours = true;
 		}
 
@@ -111,6 +106,7 @@ public class DateCheckerService implements DateChecker {
 	class OpeningHours {
 
 		private LocalTime openingTime;
+		private LocalTime closingTime;
 
 		public OpeningHours(LocalTime openingTime, LocalTime closingTime) {
 			super();
@@ -133,8 +129,6 @@ public class DateCheckerService implements DateChecker {
 		public void setClosingTime(LocalTime closingTime) {
 			this.closingTime = closingTime;
 		}
-
-		private LocalTime closingTime;
 
 	}
 
