@@ -35,56 +35,56 @@ public class DateCheckerService implements DateChecker {
 
 		LocalDateTime MaxDaysinFuture = currentDateTime.plusDays(MAXDAYSINFUTURE);
 		LocalDateTime EarliestCallBackTime = currentDateTime.plusHours(MAXHOURSAFTERNOW);
-		boolean isDateTimeValid;
+		boolean DateTimeValid;
 		// assumption that 6 working days in future counts day 1 as tomorrow
 		// so any date over 7 days can be discarded as every week will have a non
 		// working Sunday
 		if (callbackDateandTime.isAfter(MaxDaysinFuture)) {
 			System.out.println("Date is over 6 business days in the future");
-			isDateTimeValid = false;
+			DateTimeValid = false;
 		}
 		// check less than 2 hours
 		else if (callbackDateandTime.isBefore(EarliestCallBackTime)) {
-			isDateTimeValid = false;
+			DateTimeValid = false;
 		}
 		else if (isTimeValid(callbackDateandTime)) {
-			isDateTimeValid = true;
+			DateTimeValid = true;
 		} else {
 			// out of hours
-			isDateTimeValid = false;
+			DateTimeValid = false;
 		}
-		return isDateTimeValid;
+		return DateTimeValid;
 	}
 
 	private boolean isTimeValid(LocalDateTime callbackDateandTime) {
-		boolean isValidTime;
+		boolean ValidTime;
 		DayOfWeek dayToCheck = callbackDateandTime.getDayOfWeek();
 		OpeningHours allowedHours = timeMatrix.get(dayToCheck);
 
 		// no hours for the given day - so call centre closed
 		if (allowedHours == null) {
-			isValidTime = false;
+			ValidTime = false;
 		} else if (isInWorkingHours(callbackDateandTime.toLocalTime(), allowedHours)) {
-			isValidTime = true;
+			ValidTime = true;
 		} else {
-			isValidTime = false;
+			ValidTime = false;
 		}
-		return isValidTime;
+		return ValidTime;
 	}
 
 	private boolean isInWorkingHours(LocalTime callbackTime, OpeningHours allowedHours) {
 
-		boolean isInWorkingHours = false;
+		boolean InWorkingHours = false;
 		// need to check if exact match is allowed ?
 		if (callbackTime.equals(allowedHours.getOpeningTime()) || callbackTime.equals(allowedHours.getClosingTime())) {
-			isInWorkingHours = true;
+			InWorkingHours = true;
 		}
 
 		if (callbackTime.isAfter(allowedHours.getOpeningTime()) && callbackTime.isBefore(allowedHours.closingTime)) {
-			isInWorkingHours = true;
+			InWorkingHours = true;
 		}
 
-		return isInWorkingHours;
+		return InWorkingHours;
 	}
 
 	private void generateTimeMap() {
