@@ -36,21 +36,17 @@ public class DateCheckerService implements DateChecker {
 		LocalDateTime MaxDaysinFuture = currentDateTime.plusDays(MAXDAYSINFUTURE);
 		LocalDateTime EarliestCallBackTime = currentDateTime.plusHours(MAXHOURSAFTERNOW);
 		boolean DateTimeValid;
-		// assumption that 6 working days in future counts day 1 as tomorrow
-		// so any date over 7 days can be discarded as every week will have a non
-		// working Sunday
+	
 		if (callbackDateandTime.isAfter(MaxDaysinFuture)) {
 			System.out.println("Date is over 6 business days in the future");
 			DateTimeValid = false;
 		}
-		// check less than 2 hours
 		else if (callbackDateandTime.isBefore(EarliestCallBackTime)) {
 			DateTimeValid = false;
 		}
 		else if (isTimeValid(callbackDateandTime)) {
 			DateTimeValid = true;
 		} else {
-			// out of hours
 			DateTimeValid = false;
 		}
 		return DateTimeValid;
@@ -60,8 +56,6 @@ public class DateCheckerService implements DateChecker {
 		boolean ValidTime;
 		DayOfWeek dayToCheck = callbackDateandTime.getDayOfWeek();
 		OpeningHours allowedHours = timeMatrix.get(dayToCheck);
-
-		// no hours for the given day - so call centre closed
 		if (allowedHours == null) {
 			ValidTime = false;
 		} else if (isInWorkingHours(callbackDateandTime.toLocalTime(), allowedHours)) {
@@ -75,15 +69,12 @@ public class DateCheckerService implements DateChecker {
 	private boolean isInWorkingHours(LocalTime callbackTime, OpeningHours allowedHours) {
 
 		boolean InWorkingHours = false;
-		// need to check if exact match is allowed ?
 		if (callbackTime.equals(allowedHours.getOpeningTime()) || callbackTime.equals(allowedHours.getClosingTime())) {
 			InWorkingHours = true;
 		}
-
 		if (callbackTime.isAfter(allowedHours.getOpeningTime()) && callbackTime.isBefore(allowedHours.closingTime)) {
 			InWorkingHours = true;
 		}
-
 		return InWorkingHours;
 	}
 

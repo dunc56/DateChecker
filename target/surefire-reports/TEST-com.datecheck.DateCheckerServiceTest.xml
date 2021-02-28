@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="9" failures="0" name="com.datecheck.DateCheckerServiceTest" time="0.015" errors="0" skipped="0">
+<testsuite tests="10" failures="0" name="com.datecheck.DateCheckerServiceTest" time="0.026" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="11.0.9+7-LTS"/>
@@ -64,13 +64,14 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsMoreThanSevenDays_thenTheDateIsInvalid" time="0.013"/>
-  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsLessThanTwoHours_thenTheDateIsInvalid" time="0"/>
-  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsOnSunday_thenTheDateIsInvalid" time="0"/>
+  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsNineAmExactlyWithinWorkingHoursOnWednesday_thenTheDateIsValid" time="0.018"/>
+  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsMoreThanSevenDays_thenTheDateIsInvalid" time="0.001"/>
+  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsLessThanTwoHours_thenTheDateIsInvalid" time="0.001"/>
+  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsOnSunday_thenTheDateIsInvalid" time="0.001"/>
   <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsWithinWorkingHoursOnSaturday_thenTheDateIsValid" time="0"/>
-  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsBeforeWorkingHoursOnSaturday_thenTheDateIsInValid" time="0"/>
+  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsBeforeWorkingHoursOnSaturday_thenTheDateIsInValid" time="0.001"/>
   <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsAfterWorkingHoursOnSaturday_thenTheDateIsInValid" time="0.001"/>
   <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsWithinWorkingHoursOnWednesday_thenTheDateIsValid" time="0.001"/>
-  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsAfterWorkingHoursOnWednesday_thenTheDateIsInValid" time="0"/>
-  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsNineAmExactlyWithinWorkingHoursOnWednesday_thenTheDateIsValid" time="0"/>
+  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsEightPmExactlyWithinWorkingHoursOnWednesday_thenCurrentDateIsValid" time="0.001"/>
+  <testcase classname="com.datecheck.DateCheckerServiceTest" name="givenCheckerService_whenCallBackIsAfterWorkingHoursOnWednesday_thenTheDateIsInValid" time="0.001"/>
 </testsuite>
