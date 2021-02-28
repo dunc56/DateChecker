@@ -4,8 +4,8 @@ I added the code in one commit - then realised I should have done it piecemeal t
 
 Things to consider if given more time :-
 1. Locale - will the call centre be in a different locale ? 
-1. use an Immutable map for the storgae of the opening times ? 
-1. refer the tests to the constants for times rather than hard coding.
+1. use an Immutable map for the storage of the opening times ? 
+
 
 ## Instructions for Running
 Download the repo - unzip it. 
