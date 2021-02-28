@@ -22,7 +22,8 @@ public class DateCheckerService implements DateChecker {
 	public static final String FridayClose = "20:00";
 	public static final String SaturdayOpen = "09:00";
 	public static final String SaturdayClose = "12:30";
-
+	private static final OpeningHours NO_WORKING_HOURS = null;
+	
 	public Map<DayOfWeek, OpeningHours> timeMatrix;
 
 	public DateCheckerService() {
@@ -32,31 +33,20 @@ public class DateCheckerService implements DateChecker {
 	}
 
 	public boolean isCallBackDateValid(LocalDateTime callbackDateandTime, LocalDateTime currentDateTime) {
-
-		LocalDateTime MaxDaysinFuture = currentDateTime.plusDays(MAXDAYSINFUTURE);
-		LocalDateTime EarliestCallBackTime = currentDateTime.plusHours(MAXHOURSAFTERNOW);
-		boolean DateTimeValid;
-	
-		if (callbackDateandTime.isAfter(MaxDaysinFuture)) {
-			System.out.println("Date is over 6 business days in the future");
-			DateTimeValid = false;
-		}
-		else if (callbackDateandTime.isBefore(EarliestCallBackTime)) {
-			DateTimeValid = false;
-		}
-		else if (isTimeValid(callbackDateandTime)) {
-			DateTimeValid = true;
+		boolean dateTimeValid;
+		if (isWithinRules(currentDateTime, callbackDateandTime)) {
+			dateTimeValid = true;
 		} else {
-			DateTimeValid = false;
+			dateTimeValid = false;
 		}
-		return DateTimeValid;
+		return dateTimeValid;
 	}
 
 	private boolean isTimeValid(LocalDateTime callbackDateandTime) {
 		boolean ValidTime;
 		DayOfWeek dayToCheck = callbackDateandTime.getDayOfWeek();
 		OpeningHours allowedHours = timeMatrix.get(dayToCheck);
-		if (allowedHours == null) {
+		if (allowedHours == NO_WORKING_HOURS) {
 			ValidTime = false;
 		} else if (isInWorkingHours(callbackDateandTime.toLocalTime(), allowedHours)) {
 			ValidTime = true;
@@ -66,13 +56,17 @@ public class DateCheckerService implements DateChecker {
 		return ValidTime;
 	}
 
-	private boolean isInWorkingHours(LocalTime callbackTime, OpeningHours allowedHours) {
+	private boolean isWithinRules(LocalDateTime currentDateTime, LocalDateTime callbackDateandTime) {
+		LocalDateTime MaxDaysinFuture = currentDateTime.plusDays(MAXDAYSINFUTURE);
+		LocalDateTime EarliestCallBackTime = currentDateTime.plusHours(MAXHOURSAFTERNOW);
+		return !callbackDateandTime.isAfter(MaxDaysinFuture) && !callbackDateandTime.isBefore(EarliestCallBackTime)
+				&& isTimeValid(callbackDateandTime);
+	}
 
+	private boolean isInWorkingHours(LocalTime callbackTime, OpeningHours allowedHours) {
 		boolean InWorkingHours = false;
-		if (callbackTime.equals(allowedHours.getOpeningTime()) || callbackTime.equals(allowedHours.getClosingTime())) {
-			InWorkingHours = true;
-		}
-		if (callbackTime.isAfter(allowedHours.getOpeningTime()) && callbackTime.isBefore(allowedHours.closingTime)) {
+
+		if (!callbackTime.isBefore(allowedHours.getOpeningTime()) && !callbackTime.isAfter(allowedHours.closingTime)) {
 			InWorkingHours = true;
 		}
 		return InWorkingHours;
@@ -95,7 +89,7 @@ public class DateCheckerService implements DateChecker {
 	}
 
 	class OpeningHours {
-
+	
 		private LocalTime openingTime;
 		private LocalTime closingTime;
 
